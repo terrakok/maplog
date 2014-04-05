@@ -1,0 +1,17 @@
+{
+  "port": 3000,
+  "ip": "127.0.0.1",
+  "mongoose": {
+    "uri": "mongodb://localhost/maplogdb"
+  },
+  "security": {
+    "tokenLife": 3600
+  },
+  "webClient": {
+    "name": "Our web client",
+    "clientId": "webClientEJRV",
+    "clientSecret": "VEvh345Dfv"
+  },
+  "uploadsFolderName": "/uploads",
+  "logsFolderName": "/logs"
+}
