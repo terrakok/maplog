@@ -35,7 +35,7 @@ maplogLogin.controller('loginCtrl', function ($scope) {
                     alert("Server not found!");
                 }
             };
-            xhr.open('POST', SERVER_ADDRESS + 'token', true);
+            xhr.open('POST', SERVER_ADDRESS + 'api/token', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(params);
         }

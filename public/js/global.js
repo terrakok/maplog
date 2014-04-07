@@ -1,6 +1,7 @@
 'use strict';
 
-var SERVER_ADDRESS = 'http://greate-maplog.rhcloud.com/api/';
+var SERVER_ADDRESS = 'http://rbqvzxycyc.localtunnel.me/';
+//var SERVER_ADDRESS = 'http://greate-maplog.rhcloud.com/';
 var CLIENT_ID = 'webClientEJRV';
 var CLIENT_SECRET = 'VEvh345Dfv';
 

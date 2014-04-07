@@ -30,7 +30,7 @@ maplogJoin.controller('joinCtrl', function ($scope) {
                     alert("Server not found!");
                 }
             };
-            xhr.open('POST', SERVER_ADDRESS + 'registration', true);
+            xhr.open('POST', SERVER_ADDRESS + 'api/registration', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(params);
         }

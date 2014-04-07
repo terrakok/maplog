@@ -14,7 +14,7 @@ maplogProfile.controller('profileCtrl', function ($scope) {
 
             if (!jsonData.error) {
                 $scope.userNick = jsonData.userNick + ' ' + jsonData.userEmail + ' ' + jsonData.userAvatar;
-                $scope.avatarUrl = '../img/avokado.jpg';
+                $scope.avatarUrl = SERVER_ADDRESS + 'img/loadingThumb.jpg'
                 $scope.profileInfoShow = true;
                 $scope.$apply();
             } else {
@@ -24,7 +24,7 @@ maplogProfile.controller('profileCtrl', function ($scope) {
             alert("Server not found!");
         }
     };
-    xhr.open('GET', SERVER_ADDRESS + 'get_user_info', true);
+    xhr.open('GET', SERVER_ADDRESS + 'api/get_user_info', true);
     xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('token'));
     xhr.send(null);
 });
