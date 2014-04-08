@@ -1,9 +1,8 @@
 'use strict';
 
 var SERVER_ADDRESS = 'http://localhost:3000/';
-if (process.env.OPENSHIFT_APP_DNS) {
-  SERVER_ADDRESS = 'http://' + process.env.OPENSHIFT_APP_DNS + '/';
-}
+SERVER_ADDRESS = 'http://greate-maplog.rhcloud.com/';
+
 var CLIENT_ID = 'webClientEJRV';
 var CLIENT_SECRET = 'VEvh345Dfv';
 
