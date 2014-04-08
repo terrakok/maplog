@@ -58,7 +58,7 @@
 <div id="bottomPanel">
     <h2 style="color: #e66d10" ng-hide="allFilesArr.length > 0">Drag your photo on map!</h2>
 
-    <div id="photoList" ui-sortable="sortableOptions">
+    <div id="photoList" ui-sortable="sortableOptions" ng-model="allFilesArr">
         <div ng-repeat="file in allFilesArr">
             <img id="list_thumb"
                  ng-src="{{getThumbnail(file.file_id)}}"/>

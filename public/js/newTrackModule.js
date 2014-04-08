@@ -3,10 +3,14 @@
 var maplogNewTrack = angular.module('maplogNewTrack', ['angularFileUpload', 'ui.sortable']);
 
 maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
-  var map;
+  var map, markers = [], line;
   $scope.allFilesArr = [];
   $scope.uploadFiles = [];
   $scope.sortableOptions = {
+    stop: function (e, ui) {
+      showMarkers($scope.allFilesArr);
+    },
+    revert: true,
     axis: 'x'
   };
 
@@ -15,6 +19,8 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
   $scope.onFileSelect = function ($files) {
     var newFiles = $files;
     var filesCounter = $scope.allFilesArr.length;
+    var startPointX = 300;
+    var startPointY = 100;
 
     //добавляем все изображения в общий массив
     for (var i = 0; i < newFiles.length; i++) {
@@ -22,10 +28,11 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
 
       if (window.FileReader && file.type.indexOf('image') > -1) {
         var file_key = filesCounter + i;
+        var pointLatLng = map.layerPointToLatLng([startPointX, startPointY]);
+        startPointX += 50;
 
         var fileInfo = {
-          latitude: null,
-          longitude: null,
+          position: pointLatLng,
           description: 'File name: ' + file.name,
           file_id: null,
           file_key: file_key
@@ -54,7 +61,8 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
         })(file_key);
       }
     }
-    $scope.$apply();
+    showMarkers($scope.allFilesArr);
+    $scope.safeApply();
   }
 
   $scope.abortUploadFile = function (file_key) {
@@ -89,6 +97,53 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
 
     map = L.map('map').setView([51.505, -0.09], 13);
     map.addLayer(osm);
+
+    line = new L.polyline([], {color: 'red'}).addTo(map);
+  }
+
+  function showMarkers(points) {
+    markers.forEach(function (marker) {
+      map.removeLayer(marker);
+    });
+    markers = [];
+
+    points.forEach(function (point) {
+      var marker = L.marker(point.position, {
+        icon: L.icon({
+          iconUrl: SERVER_ADDRESS + 'img/pin.png',
+          iconSize: [38, 55],
+          iconAnchor: [18, 55]
+        }),
+        title: point.description,
+        draggable: 'true'
+      });
+
+      marker.on('move', function (e) {
+        drawLine();
+      });
+
+      marker.on('dragend', function (e) {
+        refreshPositionFiles();
+      });
+
+      map.addLayer(marker);
+      markers.push(marker);
+    });
+    drawLine();
+  }
+
+  function drawLine() {
+    var dots = [];
+    markers.forEach(function (marker) {
+      dots.push(marker.getLatLng());
+    });
+    line.setLatLngs(dots);
+  }
+
+  function refreshPositionFiles() {
+    markers.forEach(function (marker, index) {
+      $scope.allFilesArr[index].position = marker.getLatLng();
+    });
   }
 
   $scope.safeApply = function (fn) {
