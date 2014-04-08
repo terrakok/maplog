@@ -29,7 +29,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
 
       if (window.FileReader && file.type.indexOf('image') > -1) {
         var file_key = filesCounter + i;
-        var pointLatLng = map.layerPointToLatLng([startPointX, startPointY]);
+        var pointLatLng = map.containerPointToLatLng([startPointX, startPointY]);
         startPointX += 50;
 
         var fileInfo = {
@@ -52,7 +52,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
             // get upload percentage
             console.log(key + ': percent = ' + parseInt(100.0 * evt.loaded / evt.total));
           }).success(function (data, status, headers, config) {
-            if (status === 200 && !data.error) {
+            if (status == 200 && !data.error) {
               updateThumbnail(key, data.fileID);
             } else {
               updateThumbnail(key, '');
@@ -72,7 +72,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
   }
 
   $scope.getThumbnail = function (fileID) {
-    if (fileID) {
+    if (fileID !== null) {
       if (fileID.length > 0) {
         return SERVER_ADDRESS + 'api/photo/' + fileID + '.thumb'
       } else {
