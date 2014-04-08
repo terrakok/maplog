@@ -52,7 +52,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
             // get upload percentage
             console.log(key + ': percent = ' + parseInt(100.0 * evt.loaded / evt.total));
           }).success(function (data, status, headers, config) {
-            if (status === 200) {
+            if (status === 200 && !data.error) {
               updateThumbnail(key, data.fileID);
             } else {
               updateThumbnail(key, '');
