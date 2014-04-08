@@ -48,9 +48,9 @@ function saveTrack(userNick, newTrack, callback) {
 
         var points = track.points;
         var photoIDs = [];
-        for (var point in points) {
+        points.forEach(function (point) {
           photoIDs.push(point.fileID);
-        }
+        });
         renameSavedPhotos(photoIDs);
 
         callback(null, track._id);
@@ -301,7 +301,7 @@ function makeid(lenghId) {
 
 function renameSavedPhotos(photoIDs) {
   var photoFolder = config.get('photo_folder_path');
-  for (var photoID in photoIDs) {
+  photoIDs.forEach(function (photoID) {
     var photoName = photoFolder + '/' + photoID;
     fs.rename(photoName + '.temp', photoName, function (err) {
       if (err) {
@@ -310,7 +310,7 @@ function renameSavedPhotos(photoIDs) {
         log.info('renameSavedPhotos id = ' + photoName + ' OK');
       }
     });
-  }
+  });
 }
 
 function deletePhotos(photoIDs) {
