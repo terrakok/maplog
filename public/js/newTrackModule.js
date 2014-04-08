@@ -5,6 +5,7 @@ var maplogNewTrack = angular.module('maplogNewTrack', ['angularFileUpload', 'ui.
 maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
   var map, markers = [], line;
   $scope.allFilesArr = [];
+  $scope.trackTitle = '';
   $scope.uploadFiles = [];
   $scope.sortableOptions = {
     stop: function (e, ui) {
@@ -43,6 +44,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
         (function (key) {
           $scope.uploadFiles[key] = $upload.upload({
             url: SERVER_ADDRESS + 'api/upload_new_photo',
+            headers: {'Authorization': 'Bearer ' + getCookie('token')},
             method: 'POST',
             file: file,
             fileFormDataName: 'newPhoto'
@@ -144,6 +146,48 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
     markers.forEach(function (marker, index) {
       $scope.allFilesArr[index].position = marker.getLatLng();
     });
+  }
+
+  $scope.clickSave = function saveNewTrack() {
+    var trackPoints = [];
+    if (!angular.isUndefined($scope.trackTitle)) {
+      $scope.allFilesArr.forEach(function (pointItem, i) {
+        trackPoints.push({
+          latitude: pointItem.position.lat,
+          longitude: pointItem.position.lng,
+          description: pointItem.description,
+          number: i,
+          fileID: pointItem.file_id
+        });
+      });
+
+      var newTrackData = {
+        title: $scope.trackTitle,
+        points: trackPoints
+      };
+
+      var xhr = new XMLHttpRequest();
+      var params = JSON.stringify(newTrackData);
+      xhr.onloadend = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var jsonData = JSON.parse(xhr.responseText);
+          if (!jsonData.error) {
+            alert('OK: ' + xhr.responseText);
+            redirect('new_track');
+          } else {
+            alert('Error: ' + jsonData.error);
+          }
+        } else {
+          alert('Server not found!');
+        }
+      };
+      xhr.open('POST', SERVER_ADDRESS + 'api/save_track', true);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('token'));
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(params);
+    } else {
+      alert('Please enter track title!');
+    }
   }
 
   $scope.safeApply = function (fn) {

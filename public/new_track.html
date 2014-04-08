@@ -41,13 +41,18 @@
 
         #bottomPanel {
             width: 100%;
-            height: 150px;
+            height: 180px;
             position: absolute;
             left: 0;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.80);
             overflow-y: hidden;
             overflow-x: auto;
+        }
+
+        #buttonsLay {
+            width: 100%;
+            height: 30px;
         }
     </style>
 
@@ -63,6 +68,13 @@
             <img id="list_thumb"
                  ng-src="{{getThumbnail(file.file_id)}}"/>
         </div>
+    </div>
+
+    <div id="buttonsLay" ng-show="allFilesArr.length > 0">
+        <br>
+        <h3 style="color: #e66d10">Track title: <input ng-model="trackTitle">
+            <button ng-click="clickSave()">Save</button>
+        </h3>
     </div>
 </div>
 </body>
