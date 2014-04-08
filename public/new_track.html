@@ -28,15 +28,6 @@
             bottom: 0;
         }
 
-        #photoList {
-            width: 100%;
-            height: 150px;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.80);
-        }
-
         #photoList > div {
             float: left;
         }
@@ -47,18 +38,31 @@
             padding-left: 25px;
             padding-top: 25px;
         }
+
+        #bottomPanel {
+            width: 100%;
+            height: 150px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.80);
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
     </style>
 
 </head>
 <body ng-controller="newTrackCtrl"
       ng-file-drop="onFileSelect($files)">
 <div id="map"></div>
-<div id="photoList" ui-sortable="sortableOptions" ng-model="allFilesArr">
+<div id="bottomPanel">
     <h2 style="color: #e66d10" ng-hide="allFilesArr.length > 0">Drag your photo on map!</h2>
 
-    <div ng-repeat="file in allFilesArr">
-        <img id="list_thumb"
-             ng-src="{{getThumbnail(file.file_id)}}"/>
+    <div id="photoList" ui-sortable="sortableOptions">
+        <div ng-repeat="file in allFilesArr">
+            <img id="list_thumb"
+                 ng-src="{{getThumbnail(file.file_id)}}"/>
+        </div>
     </div>
 </div>
 </body>
