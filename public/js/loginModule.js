@@ -23,11 +23,11 @@ maplogLogin.controller('loginCtrl', function ($scope) {
         if (xhr.readyState == 4 && xhr.status == 200) {
           var jsonData = JSON.parse(xhr.responseText);
           if (!jsonData.error) {
-            alert('Login OK! token = ' + jsonData.access_token);
             deleteCookie("token");
             setCookie("token", jsonData.access_token, {
               path: "/"
             });
+            redirect('profile');
           } else {
             alert("Error: " + jsonData.error);
           }
