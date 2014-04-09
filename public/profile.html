@@ -17,13 +17,29 @@
         body {
             background-color: #999999;
         }
+
+        #trackItem {
+            width: 140px;
+            height: 140px;
+            padding: 25px;
+        }
+
+        #trackThumb {
+            width: 100px;
+            height: 100px;
+        }
     </style>
 
 </head>
 <body ng-controller="profileCtrl">
-    <div ng-show="profileInfoShow">
-        <img ng-src="{{avatarUrl}}">
-        <h3>{{userNick}}</h3>
+<div ng-show="profileInfoShow">
+    <img ng-src="{{avatarUrl}}">
+
+    <h3>{{userNick}}</h3>
+
+    <div id="trackItem" ng-repeat="track in allTracksArr">
+        <img id="trackThumb" ng-src="{{getThumbnail(track.randomPointID)}}">{{track.title}}
     </div>
+</div>
 </body>
 </html>

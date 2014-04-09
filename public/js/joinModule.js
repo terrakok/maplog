@@ -23,6 +23,7 @@ maplogJoin.controller('joinCtrl', function ($scope) {
           var jsonData = JSON.parse(xhr.responseText);
           if (!jsonData.error) {
             alert('Registration OK! nick = ' + jsonData.usernick);
+            redirect('login');
           } else {
             alert("Error: " + jsonData.error);
           }

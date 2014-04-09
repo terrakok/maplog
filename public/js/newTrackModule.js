@@ -172,8 +172,7 @@ maplogNewTrack.controller('newTrackCtrl', function ($scope, $upload) {
         if (xhr.readyState == 4 && xhr.status == 200) {
           var jsonData = JSON.parse(xhr.responseText);
           if (!jsonData.error) {
-            alert('OK: ' + xhr.responseText);
-            redirect('new_track');
+            redirect('profile');
           } else {
             alert('Error: ' + jsonData.error);
           }
