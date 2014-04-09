@@ -1,0 +1,81 @@
+<!doctype html>
+<html ng-app="maplogNewTrack">
+<head>
+    <meta charset="utf-8"/>
+    <link href="css/leaflet.css" rel="stylesheet">
+
+    <script src="lib/jquery-2.1.0.js"></script>
+    <script src="lib/jquery-ui-1.10.4.custom.min.js"></script>
+
+    <script src="lib/angular-file-upload-shim.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-file-upload.js"></script>
+    <script src="lib/leaflet.js"></script>
+    <script src="lib/sortable.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/newTrackModule.js"></script>
+
+    <style>
+        body {
+            background-color: #999999;
+        }
+
+        #map {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #photoList > div {
+            float: left;
+        }
+
+        #list_thumb {
+            width: 100px;
+            height: 100px;
+            padding-left: 25px;
+            padding-top: 25px;
+        }
+
+        #bottomPanel {
+            width: 100%;
+            height: 180px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.80);
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+
+        #buttonsLay {
+            width: 100%;
+            height: 30px;
+        }
+    </style>
+
+</head>
+<body ng-controller="newTrackCtrl"
+      ng-file-drop="onFileSelect($files)">
+<div id="map"></div>
+<div id="bottomPanel">
+    <h2 style="color: #e66d10" ng-hide="allFilesArr.length > 0">Drag your photo on map!</h2>
+
+    <div id="photoList" ui-sortable="sortableOptions" ng-model="allFilesArr">
+        <div ng-repeat="file in allFilesArr">
+            <img id="list_thumb"
+                 ng-src="{{getThumbnail(file.file_id)}}"/>
+        </div>
+    </div>
+
+    <div id="buttonsLay" ng-show="allFilesArr.length > 0">
+        <br>
+        <h3 style="color: #e66d10">Track title: <input ng-model="trackTitle">
+            <button ng-click="clickSave()">Save</button>
+        </h3>
+    </div>
+</div>
+</body>
+</html>
