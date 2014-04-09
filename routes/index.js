@@ -107,8 +107,20 @@ function getUserTracks(userNick, callback) {
         log.error('getUserTracks ERROR ' + err);
         callback(err);
       } else {
-        log.info('getUserTracks OK! ' + tracks);
-        callback(null, tracks);
+        log.info('getUserTracks OK! ' + tracks.length);
+        var tracksResult = [];
+
+        tracks.forEach(function (track) {
+          var trackTemp = {
+            title: track.title,
+            author: track.author,
+            _id: track._id,
+            created: track.created,
+            randomPointID: track.points[Math.floor(Math.random() * track.points.length)].fileID
+          };
+          tracksResult.push(trackTemp);
+        });
+        callback(null, tracksResult);
       }
     });
   } else {
@@ -147,10 +159,22 @@ function getFullUserInfo(userNick, callback) {
         log.error('getFullUserInfo ERROR ' + err);
         callback(err);
       } else {
-        log.info('getFullUserInfo OK! ' + user);
-        callback(null, {  userNick: user.userNick,
+        log.info('get UserInfo OK! ' + user.userNick);
+        var userInfo = {
+          userNick: user.userNick,
           userEmail: user.userEmail,
-          userAvatar: user.userAvatar });
+          userAvatar: user.userAvatar
+        };
+
+        getUserTracks(userNick, function (err, tracks) {
+          if (err) {
+            log.info('get UserTracks err! ' + err);
+            callback(null, {userInfo: userInfo});
+          } else {
+            log.info('get UserTracks OK! ' + tracks.length);
+            callback(null, {userInfo: userInfo, tracks: tracks});
+          }
+        });
       }
     });
   } else {
