@@ -1,0 +1,207 @@
+РЕГИТСРАЦИЯ
+-->	post /api/registration
+		params:
+			usernick - String = (2, 25)
+			useremail - String = (2, 25)
+			password
+<--	json
+	{
+		error: ""
+	}
+	{
+		message: ""
+		usernick: ""
+	}
+
+ЗАПРОС ТОКЕНА
+--> post /api/token
+		params:
+			grant_type=password
+			client_id=webClientEJRV
+			client_secret=VEvh345Dfv
+			username
+			password
+<--	json
+	{
+		error: ""
+	}
+	{
+		access_token: ""
+		refresh_token: ""
+		expires_in:
+		token_type: "bearer"
+	}
+
+ОБНОВЛЕНИЕ ТОКЕНА
+--> post /api/token
+		params:
+			grant_type=refresh_token
+			client_id=webClientEJRV
+			client_secret=VEvh345Dfv
+			refresh_token
+<--	json
+	{
+		error: ""
+	}
+	{
+		access_token: ""
+		refresh_token: ""
+		expires_in:
+		token_type: "bearer"
+	}
+
+ПРОСМОТРЕТЬ ТРЕК
+--> get /api/track/:id
+<--	json
+	{
+		error: ""
+	}
+	{
+		title: ""
+		author: ""
+		created:
+		points: [
+			{
+				latitude:
+				longitude:
+				description:
+				number:
+				fileID:
+			}
+		]
+	}
+
+ПОЛУЧИТЬ ФОТО (:id + '.thumb')
+--> get /api/photo/:id
+<--	json
+	{
+		error: ""
+	}
+	либо сама фотография
+
+ВСЕ ТРЕИ ПОЛЬЗОВАТЕЛЯ
+--> post /api/get_tracks
+		params:
+			userNick
+<--	json
+	{
+		error: ""
+	}
+	[
+		{
+			title: ""
+			author: ""
+			created:
+			points: [
+				{
+					latitude:
+					longitude:
+					description:
+					number:
+					fileID:
+				}
+			]
+		}
+	]
+
+ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ
+--> post /api/get_user_info
+		params:
+			userNick
+<--	json
+	{
+		error: ""
+	}
+	[
+		{
+			userNick: ""
+			userAvatar: ""
+		}
+	]
+
+======================================================================
+ДАЛЕЕ МЕТОДЫ ТРЕБУЮЩИЕ АВТОРИЗАЦИИ:
+ПОЛУЧЕННЫЙ ТОКЕН НАДО ПЕРЕДАВАТЬ В ЗАГОЛОВКЕ
+Authorization:'Bearer TOKEN'
+ГДЕ TOKEN - ПОЛУЧЕННЫЙ РАНЕЕ ТОКЕН
+======================================================================
+
+
+ОТГРУЗКА НОВОЙ ФОТКИ
+--> post /api/upload_new_photo
+		пример формы:
+			<form action="http:///api/upload_new_photo" method="post" enctype="multipart/form-data">
+      			File: <input type="file" name="newPhoto">
+      			<input type="submit" value="send">
+    		</form>
+<--	json
+	{
+		error: ""
+	}
+	{
+		fileID:
+	}
+
+ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ
+--> get /api/get_my_info
+<--	json
+	{
+		error: ""
+	}
+	{
+		userInfo: {
+			userNick: ""
+			userEmail: ""
+			userAvatar: ""
+		},
+		tracks: [
+		]
+	}
+
+СОХРАНИТЬ НОВЫЙ ТРЕК
+--> post /api/save_track
+		Header: Content-Type: application/json
+		body:
+			{
+				title: ""
+				points: [
+					{
+						latitude:
+						longitude:
+						description:
+						number:
+						fileID:
+					}
+				]
+			}
+<--	json
+	{
+		error: ""
+	}
+	{
+		fileID:
+	}
+
+УДАЛИТЬ ТРЕК
+--> post /api/delete_track
+		params:
+			trackID
+<--	json
+	{
+		error: ""
+	}
+	{
+		message: "done!"
+	}
+
+УДАЛИТЬ ФОТО
+--> post /api/delete_photo
+		params:
+			photoID
+<--	json
+	{
+		error: ""
+	}
+	{
+		message: "done!"
+	}
