@@ -1,0 +1,2 @@
+# Compile styles to style.css
+lessc style.less > style.css
