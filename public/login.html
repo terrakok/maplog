@@ -2,38 +2,62 @@
 <html ng-app="maplogLogin">
 <head>
     <meta charset="utf-8">
-    <title>Maplog Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="i/favicon.ico">
 
-    <!-- Loading Bootstrap -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <title>Sign in - Maplog</title>
 
-    <!-- Loading Flat UI -->
-    <link href="css/flat-ui.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="lib/html5shiv.js"></script>
+      <script src="lib/respond.min.js"></script>
+    <![endif]-->
 
     <script src="lib/angular/angular.js"></script>
     <script src="js/global.js"></script>
     <script src="js/loginModule.js"></script>
-
-    <style>
-        body {
-            background-color: #999999;
-        }
-    </style>
 </head>
-<body ng-controller="loginCtrl">
+<body class="login-page" ng-controller="loginCtrl">
+    <div class="bg-image" style="background-image: url('./img/background/bg1.jpg');"></div>
 
-<div>
-    <h2>Login Maplog!</h2>
+    <!-- Menu panel -->
+    <div class="sidebar-container">
+        <a href="/"><img src="./img/logo_small.png" class="logo" /></a>
+        <ul class="menu list-unstyled">
+            <li><a href="/main">Maplog</a></li>
+            <li><a href="/explore">Explore</a></li>
+            <li><a href="/join">Join</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </div>
 
-    <div class="col-xs-3">
-        <input ng-model="nick" type="text" placeholder="Nickname" class="form-control"/>
+    <!-- Login panel -->
+    <div class="login-container">
+        <h1><a href="/main"><img class="logo pull-left" src="./img/logo_small.png" />Maplog</a></h1>
+        <form role="form">
+            <div class="form-group">
+                <input ng-model="nick" type="text" placeholder="Nickname" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <input ng-model="pass" type="password" placeholder="Password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <a ng-click="login()" class="btn btn-block btn-success">Sign in</a>
+            </div>
+            <div class="form-group form-group-account">
+                <ul class="list-inline">
+                    <li><a ng-click="#" class="btn btn-sm btn-primary">I forgot my password</a></li>
+                    <li><a href="/join" class="btn btn-sm btn-primary">Create an account</a></li>
+                </ul>
+            </div>
+        </form>
     </div>
-    <div class="col-xs-3">
-        <input ng-model="pass" type="password" placeholder="Password" class="form-control"/>
-    </div>
-    <div class="col-xs-3">
-        <a ng-click="login()" class="btn btn-block btn-lg btn-success">Login</a>
-    </div>
-</div>
+
 </body>
 </html>
