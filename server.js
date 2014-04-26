@@ -249,6 +249,15 @@ app.get('/api/track/:id',
   }
 );
 
+app.get('/', function (req, res) {
+  log.info('Get '+ req.url);
+  res.sendfile('./public/main.html', function (err) {
+    if (err){
+      res.send(404, 'Sorry, we cannot find that!');
+    }
+  });
+});
+
 //web application
 app.get('*', function (req, res) {
   log.info('Get '+ req.url);
