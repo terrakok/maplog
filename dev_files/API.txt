@@ -50,6 +50,18 @@
 		token_type: "bearer"
 	}
 
+ЗАПРОС НОВОГО ПАРОЛЯ
+--> post /api/new_password
+		params:
+			userNick
+<--	json
+	{
+		error: ""
+	}
+	{
+		message: ""
+	}
+
 ПРОСМОТРЕТЬ ТРЕК
 --> get /api/track/:id
 <--	json
@@ -79,7 +91,7 @@
 	}
 	либо сама фотография
 
-ВСЕ ТРЕИ ПОЛЬЗОВАТЕЛЯ
+ВСЕ ТРЕКИ ПОЛЬЗОВАТЕЛЯ
 --> post /api/get_tracks
 		params:
 			userNick
