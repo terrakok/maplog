@@ -260,7 +260,9 @@ app.post('/new_password', function (req, res) {
     } else {
       log.info('newPassword done = ' + message);
       res.status(200);
-      res.send(message);
+      res.send({
+        message: message
+      });
     }
   });
 });
