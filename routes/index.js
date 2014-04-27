@@ -4,6 +4,7 @@ var UserModel = require('models/user');
 var TrackModel = require('models/track');
 var fs = require('fs');
 var imagemagick = require('imagemagick');
+var emailsender = require('libs/emailSender');
 
 function registration(userNick, userEmail, userPassword, callback) {
   log.debug('Registration new user ' + userNick);
@@ -130,6 +131,40 @@ function getUserTracks(userNick, callback) {
 }
 exports.getUserTracks = getUserTracks;
 
+function newPassword(userNick, callback) {
+  log.debug('newPassword: ' + userNick);
+
+  if (userNick) {
+    UserModel.findOne({ userNick: userNick }, function (err, user) {
+      if (err) {
+        log.error('newPassword ERROR ' + err);
+        callback(err);
+      } else {
+        log.info('newPassword OK! ' + user.userNick);
+        var newPass = makeNewPass(12);
+
+        user.password = newPass;
+        user.save(function (err) {
+          if (err)
+            callback(err);
+          else
+            emailsender.sendEmail(user.userNick, user.userEmail, newPass, function (err, message) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, 'New password send on your email!');
+              }
+            });
+        });
+      }
+    });
+  } else {
+    log.error('Invalid values');
+    callback({message: 'Invalid values'});
+  }
+}
+exports.newPassword = newPassword;
+
 function getUserInfo(userNick, callback) {
   log.debug('getUserInfo: ' + userNick);
 
@@ -139,7 +174,7 @@ function getUserInfo(userNick, callback) {
         log.error('getUserInfo ERROR ' + err);
         callback(err);
       } else {
-        log.info('getUserInfo OK! ' + user);
+        log.info('getUserInfo OK! ' + user.userNick);
         callback(null, {  userNick: user.userNick, userAvatar: user.userAvatar });
       }
     });
@@ -319,6 +354,28 @@ function makeid(lenghId) {
 
   for (var i = 0; i < lenghId; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
+function makeNewPass(lenghId) {
+  var text = '';
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (var i = 0; i < lenghId - 4; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  possible = '1234567890';
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  possible = '.!?';
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  possible = 'abcdefghijklmnopqrstuvwxyz';
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
 
   return text;
 }
