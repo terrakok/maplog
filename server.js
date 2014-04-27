@@ -249,11 +249,18 @@ app.get('/api/track/:id',
   }
 );
 
-app.get('/', function (req, res) {
-  log.info('Get '+ req.url);
-  res.sendfile('./public/main.html', function (err) {
-    if (err){
-      res.send(404, 'Sorry, we cannot find that!');
+app.post('/new_password', function (req, res) {
+  routes.newPassword(req.body.userNick, function (err, message) {
+    if (err) {
+      log.info('newPassword fail: ' + err.message);
+      res.status(200);
+      res.send({
+        error: 'newPassword fail: ' + err.message
+      });
+    } else {
+      log.info('newPassword done = ' + message);
+      res.status(200);
+      res.send(message);
     }
   });
 });
